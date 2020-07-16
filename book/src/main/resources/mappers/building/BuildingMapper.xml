@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.book.building.repository.IBuildingMapper">
+
+	<resultMap id="buildingMap" type="com.spring.book.building.domain.Building">
+	<id property="buildingId" column="building_id"/>
+	<result property="buildingName" column="building_name"/>
+	<result property="writer" column="writer"/>
+	<result property="category" column="category"/>
+	<result property="buildingAddress" column="building_address"/>
+	<result property="content" column="content"/>
+	<result property="regDate" column="reg_date" />
+	<result property="rate" column="rate" />
+	<result property="replyCnt" column="reply_cnt"/>
+	<!-- 0803 파일업로드용 추가 -->
+	<result column="file_id" property="fileId"/>
+	<result column="file_name" property="fileName"/>
+	<result column="file_size" property="fileSize"/>
+	<result column="file_content_type" property="fileContentType"/>
+	</resultMap>
+	<!-- 업로드용 fileMap -->
+	<resultMap type="com.spring.book.building.domain.BuildingUploadFile" id="FileMap">
+		<id column="file_id" property="fileId"/>
+		<result column="building_id" property="buildingId"/>
+		<result column="file_name" property="fileName"/>
+		<result column="file_size" property="fileSize"/>
+		<result column="file_content_type" property="fileContentType"/>
+		<result column="file_data" property="fileData"/>
+	</resultMap>
+	
+	<!-- 1-a. register기능 구현 -->
+	<insert id="register">
+	insert into building_board
+	(building_name,category,building_address,capacity,fee,inquiry)
+	values(#{buildingName},#{category},#{buildingAddress},#{capacity},#{fee},#{inquiry})
+	</insert>
+	
+	<!-- 2-1. 단일 행 조회 기능 -->
+	<select id="selectOne" resultMap="buildingMap">
+	select * from building_board
+	where building_id=#{buildingId}
+	</select>
+	
+	<!-- 2-2. 다중 행 조회 기능 
+	<select id="selectAll" resultMap="buildingMap">
+	select * from building_board
+	order by building_id desc
+	limit #{pageStart}, #{countPerPage}
+	</select>
+	-->
+	
+	<select id="selectAll" resultMap="buildingMap">
+	select
+	B.building_id as building_id,
+	building_name,
+	category,
+	building_address,
+	capacity,
+	fee,
+	inquiry,
+	U.file_id as file_id,
+	U.file_name as file_name,
+    U.file_size as file_size,
+    U.file_content_type as file_content_type
+    from building_board B
+    left outer join building_board_upload_file U
+    on B.building_id=U.building_id
+    order by building_id DESC
+    limit #{pageStart}, #{countPerPage}   
+	</select>
+	
+	<!-- 총 게시물 수 구하는 기능 -->
+	<select id="countArticles" resultType="int">
+	select count(building_id)
+	from building_board
+	</select>
+	
+	<!-- 3. delete 기능 구현 -->
+	<delete id="delete">
+	delete 
+	from building_board
+	where building_id=#{buildingId}
+	</delete>
+	
+	<!-- 3.1 deleteFileNmaes 기능 구현 -->
+	<delete id="deleteFileNames">
+	delete
+	from file_uplaod
+	where building_id=#{buildingId}
+	</delete>
+	
+	<!-- 파일업로드 -->
+	<!--첨부파일 등록 -->
+	<insert id="insertFileData">
+		INSERT INTO building_board_upload_file
+			(building_id, file_name, file_size, file_content_type, file_data)
+		VALUES (#{buildingId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileData} )
+	</insert>
+	
+	<!-- 최대 글번호를 조회하는 기능 -->
+	<select id="selectMaxBuildingId" resultType="int">
+		SELECT 
+			MAX(building_id) 
+		FROM building_board
+	</select>
+	
+	<select id="getFile" resultMap = "FileMap">
+		SELECT * 
+		FROM building_board_upload_file 
+		WHERE file_id=#{fileId}	
+	
+	</select>
+	
+	<select id="getFileByBuildingId" resultMap ="FileMap">
+		SELECT * 
+		FROM building_board_upload_file 
+		WHERE building_id=#{buildingId}	
+	</select>
+	
+	<!-- 댓글 개수 상승 하락 기능 구현 -->
+	<update id="updateReplyCnt">
+	    update building_board
+	    set reply_cnt=reply_cnt + #{count}
+	    where building_id = #{buildingId}
+	</update>
+	
+	<update id="update" >
+	update building_board
+	set
+	  building_name=#{buildingName},
+	  category=#{category},
+	  building_address=#{buildingAddress},
+	  capacity=#{capacity},
+	  fee=#{fee},
+	  inquiry=#{inquiry}
+	where building_id=#{buildingId}
+	</update>
+	
+
+
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.book.user.repository.IUserMapper">
+
+<resultMap id="UserMap" type="com.spring.book.user.domain.UserVO">
+    <id property="userId" column="user_id"/>
+    <result property="userPw" column="user_pw"/>
+    <result property="userName" column="user_name"/>
+    <result property="userBirth" column="user_birth"/>
+    <result property="phoneNum" column="phone_num"/>
+    <result property="email" column="email"/>
+    <result property="auth" column="auth"/>
+    <result property="sessionId" column="session_id" />        
+    <result property="sessionLimit" column="session_limit" />     
+    <result property="userLevel" column="user_level"/> 
+</resultMap>
+
+<!-- 회원등록 기능 -->
+<insert id="register">
+insert into user
+(user_id,user_pw,user_name,user_birth,phone_num,email,auth)
+values(#{userId},#{userPw},#{userName},#{userBirth},#{phoneNum},#{email},#{auth})
+</insert>
+<!-- 아이디 중복체크 -->
+<select id="isDuplicateId" resultType="int">
+select count(*)
+from user
+where user_id=#{userId}
+</select>
+
+<!--로그인 처리 SQL  -->
+<select id="login" resultMap="UserMap">
+select * 
+from user
+where user_id=#{userId} AND user_pw=#{userPw}
+</select>
+
+<!-- 자동 로그인을 체크할 경우 세션아이디와 로그인 유지시간을 갱신 -->
+    <update id="keepLogin">
+		UPDATE user 
+		SET session_id=#{sessionId}, 
+		   session_limit=#{sessionLimit} 
+		WHERE user_id=#{userId}
+	</update>
+
+<!-- 
+		자동로그인을 사용한 방문자가 재방문했을 시 
+		로그인 쿠키의 세션아이디와 일치하는 회원의 정보를 불러옴
+	 -->
+	<select id="getUserWithSessionId" resultMap="UserMap">
+		SELECT * FROM user 
+		WHERE session_id=#{sessionId}
+	</select>
+	
+	<!-- 유저개인정보 -->
+	<select id="getOneUser" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE user_id =#{userId}
+	</select>
+	
+	<!-- 유저회원탈퇴 -->
+	<delete id="dropUser">
+		DELETE FROM user
+		WHERE user_id = #{id} AND user_pw = #{pw}
+	</delete>
+
+
+
+
+</mapper>

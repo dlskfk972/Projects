@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.book.reply.repository.IReplyMapper">
+
+<resultMap id="ReplyMap" type="com.spring.book.reply.domain.ReplyVO">
+<id property="replyId" column="reply_id"/>
+<result property="replyText" column="reply_text"/>
+<result property="replyWriter" column="reply_writer"/>
+<result property="regDate" column="reg_date"/>
+<result property="updateDate" column="update_date" />
+<result property="buildingId" column="building_id"/>
+</resultMap>
+
+<insert id="create">
+insert into building_reply(reply_text,reply_writer,building_id)
+values(#{replyText},#{replyWriter},#{buildingId})
+</insert>
+
+<select id="selectAll" resultMap="ReplyMap">
+		SELECT * FROM building_reply 
+		WHERE building_id=#{buildingId} 
+		ORDER BY reply_id DESC 
+		LIMIT #{page.pageStart}, #{page.countPerPage} 
+</select>
+
+<select id="countReplies" resultType="int">
+select count(*)
+from building_reply
+where building_id=#{buildingId}
+</select>
+
+</mapper>

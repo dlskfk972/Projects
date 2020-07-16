@@ -1,0 +1,66 @@
+@font-face {
+	font-family: Indie Flower;
+	src: local("Indie Flower"), local("IndieFlower"), url(https://fonts.gstatic.com/s/indieflower/v11/m8JVjfNVeKWVnh3QMuKkFcZVaUuB.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: Lato;
+	src: local("Lato Hairline"), local("Lato-Hairline"), url(https://fonts.gstatic.com/s/lato/v16/S6u8w4BMUTPHh30AXC-s.woff) format("woff");
+	font-weight: 100;
+	font-style: normal;
+}
+@font-face {
+	font-family: Lato;
+	src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh7USSwiPHw.woff) format("woff");
+	font-weight: 300;
+	font-style: normal;
+}
+@font-face {
+	font-family: Lato;
+	src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWA.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: Muli;
+	src: url(https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFmQkEk30e4.woff) format("woff");
+	font-weight: 300;
+	font-style: normal;
+}
+@font-face {
+	font-family: Open Sans;
+	src: local("Open Sans Italic"), local("OpenSans-Italic"), url(https://fonts.gstatic.com/s/opensans/v17/mem6YaGs126MiZpBA-UFUK0Zdcs.woff) format("woff");
+	font-weight: 400;
+	font-style: italic;
+}
+@font-face {
+	font-family: Open Sans;
+	src: local("Open Sans Regular"), local("OpenSans-Regular"), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0d.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: Open Sans;
+	src: local("Open Sans SemiBold"), local("OpenSans-SemiBold"), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UNirkOUuhv.woff) format("woff");
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: Oswald;
+	src: url(https://fonts.gstatic.com/s/oswald/v31/TK3_WkUHHAIjg75cFRf3bXL8LICs169vsUZiYw.woff) format("woff");
+	font-weight: 300;
+	font-style: normal;
+}
+@font-face {
+	font-family: Oswald;
+	src: url(https://fonts.gstatic.com/s/oswald/v31/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYw.woff) format("woff");
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: Oswald;
+	src: url(https://fonts.gstatic.com/s/oswald/v31/TK3_WkUHHAIjg75cFRf3bXL8LICs1xZosUZiYw.woff) format("woff");
+	font-weight: 700;
+	font-style: normal;
+}
